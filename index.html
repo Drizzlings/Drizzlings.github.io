@@ -158,7 +158,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/11/%E4%B8%8E%E9%80%BB%E8%BE%91%E9%93%BE%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/">
+    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touxiang.jpg">
@@ -172,7 +172,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/09/11/%E4%B8%8E%E9%80%BB%E8%BE%91%E9%93%BE%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/" class="post-title-link" itemprop="url">与逻辑链相关的并查集</a>
+            <a href="/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/" class="post-title-link" itemprop="url">关系链上的并查集</a>
         </h2>
 
         <div class="post-meta">
@@ -189,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-12 15:37:23" itemprop="dateModified" datetime="2025-09-12T15:37:23+08:00">2025-09-12</time>
+                <time title="修改时间：2025-09-12 15:44:37" itemprop="dateModified" datetime="2025-09-12T15:44:37+08:00">2025-09-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,13 +220,13 @@
 </ul>
 <p>现在给出k个关系，问这些关系中哪些是假的（与已有的关系冲突）</p>
 <hr>
-<p>这是一道很经典的并查集问题，但是与一般的并查集题目不同的是，此题的集合可以选择构建一串逻辑自洽的逻辑链。</p>
+<p>这是一道很经典的并查集问题，但是与一般的并查集题目不同的是，此题的集合可以选择构建一串逻辑自洽的关系链。</p>
 <p>在解决这道题目之前，先来回顾一下两种基本的并查集操作：</p>
 <ol>
 <li>合并：<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">    pa[<span class="built_in">find</span>(x)] = <span class="built_in">find</span>(y);  <span class="comment">//pa数组存储父亲节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>查询（+路径压缩）：<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> pa[x] == x ? x : pa[x] = <span class="built_in">find</span>(pa[x]); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>此题可以用带权并查集解决，两点之间的距离代表着两者关系。经过三条边即一个A -&gt; B -&gt; C -&gt; A的循环，相当于是属于同一个物种。不过本蒟蒻并不是很会带权并查集，一开始用这个方法一直没做对这道题（<del>压力</del>）。后来看了题解发现一个让我眼前一亮的做法，遂记录在此。</p>
+<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>此题可以用带权并查集解决，两点之间的距离代表着两者关系。经过三条边即一个A -&gt; B -&gt; C -&gt; A的循环，相当于是属于同一个物种。不过本蒟蒻并不是很会带权并查集，一开始用这个方法一直没做对这道题（🍐）。后来看了题解发现一个让我眼前一亮的做法，遂记录在此。</p>
 <hr>
 <p>正篇：</p>
 <ol>
@@ -303,74 +303,9 @@
 </ol>
 <h2 id="三、做题总结"><a href="#三、做题总结" class="headerlink" title="三、做题总结"></a>三、做题总结</h2><p>经过此题的启发，我设想了一些推广，不过很多情况下不会有本题这么好的条件。此题之所以能用这种方法，是因为所有可能出现的关系都是基于A -&gt; B -&gt; C -&gt; A的核心关系，并且种类个数是一个定值。而大多数并查集的题目种类数都不固定，因此这种方法泛用性较差。不过能想到这么做的人肯定是个天才👍</p>
 <h4 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h4><p>这是本蒟蒻第一次写完整的题解，若有不当还请谅解，之后争取不断进步。把思路记录下来主要还是便于自己回顾，部署到网站上是希望能够帮助一些一起学习的伙伴。（<del>误人子弟了怎么办</del>）</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/09/A-new-start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Drizzlings">
-      <meta itemprop="description" content="To know, is to know that you konw nothing">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A Peaceful Journey">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/09/A-new-start/" class="post-title-link" itemprop="url">A new start</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-09-09 23:06:55" itemprop="dateCreated datePublished" datetime="2025-09-09T23:06:55+08:00">2025-09-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-10 17:11:31" itemprop="dateModified" datetime="2025-09-10T17:11:31+08:00">2025-09-10</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="第一次尝试"><a href="#第一次尝试" class="headerlink" title="第一次尝试"></a>第一次尝试</h1><h2 id="这是一个二级标题"><a href="#这是一个二级标题" class="headerlink" title="这是一个二级标题"></a>这是一个二级标题</h2><h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2025/09/09/A-new-start/#more" rel="contents">
+              <a class="btn" href="/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -535,7 +470,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
