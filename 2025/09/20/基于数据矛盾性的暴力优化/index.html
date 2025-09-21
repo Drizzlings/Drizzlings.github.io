@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"drizzlings.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、题目引入前情提要：今天打了ccpc的网络赛，最后大败而归。😭😭😭让我绝望的是到最后G题一直TLE，赛后发现自己的做法缺少了一个关键的细节。于是写博客记录一下此题及其使用的思想。 题目：G 序列与整数对 题目大意：有一个长度为n的序列A，q次询问，每次询问给出两个整数&lt;x,y&gt;，问A中存在多少个&lt;x,y&gt;。数据范围：$1 &lt;&#x3D; n,q &lt;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于数据矛盾性的暴力优化">
+<meta property="og:url" content="http://drizzlings.github.io/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="A Peaceful Journey">
+<meta property="og:description" content="一、题目引入前情提要：今天打了ccpc的网络赛，最后大败而归。😭😭😭让我绝望的是到最后G题一直TLE，赛后发现自己的做法缺少了一个关键的细节。于是写博客记录一下此题及其使用的思想。 题目：G 序列与整数对 题目大意：有一个长度为n的序列A，q次询问，每次询问给出两个整数&lt;x,y&gt;，问A中存在多少个&lt;x,y&gt;。数据范围：$1 &lt;&#x3D; n,q &lt;&amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-20T12:25:02.000Z">
+<meta property="article:modified_time" content="2025-09-21T07:18:45.750Z">
+<meta property="article:author" content="Drizzlings">
+<meta property="article:tag" content="记忆化">
+<meta property="article:tag" content="暴力优化">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://drizzlings.github.io/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>基于数据矛盾性的暴力优化 | A Peaceful Journey</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">A Peaceful Journey</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">fantastic inspirations</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Drizzlings">
+      <meta itemprop="description" content="To know, is to know that you konw nothing">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A Peaceful Journey">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于数据矛盾性的暴力优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-09-20 20:25:02" itemprop="dateCreated datePublished" datetime="2025-09-20T20:25:02+08:00">2025-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-09-21 15:18:45" itemprop="dateModified" datetime="2025-09-21T15:18:45+08:00">2025-09-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、题目引入"><a href="#一、题目引入" class="headerlink" title="一、题目引入"></a>一、题目引入</h2><p>前情提要：今天打了ccpc的网络赛，最后大败而归。😭😭😭<br>让我绝望的是到最后G题一直TLE，赛后发现自己的做法缺少了一个关键的细节。于是写博客记录一下此题及其使用的思想。</p>
+<p>题目：<a target="_blank" rel="noopener" href="https://qoj.ac/contest/2534/problem/14553">G 序列与整数对</a></p>
+<p>题目大意：有一个长度为n的序列A，q次询问，每次询问给出两个整数&lt;x,y&gt;，问A中存在多少个&lt;x,y&gt;。<br>数据范围：$1 &lt;&#x3D; n,q &lt;&#x3D; 10^5， 1 &lt;&#x3D; x,y &lt;&#x3D; 10^9$。</p>
+<span id="more"></span>
+
+<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p><strong>1.赛时思路</strong></p>
+<ul>
+<li><p>初始思路（暴力）<br>一开始想到的是先暴力枚举。在遍历{$a_i$}时，记录下ai出现的位置，存储在一个数组中。然后在输入x,y后，遍历x的位置数组，找在当前x位置后第一次出现的y的位置，即可算出有多少对${x,y}$。<br>简单分析一下时间复杂度。频度最大的操作是每次查询中遍历x的位置数组 + 查询满足条件的y。这里查找肯定用二分，因此时间复杂度为$O(qn\log{n})$，显然会超时。</p>
+</li>
+<li><p>暴力基础上的优化思路<br>我们发现导致超时的数据有以下特征：<br>{$a_i$}中的数字种类单一，每个数字出现了很多次，因此x的位置数组很大，每次查询操作中，基本上都是$O(n\log{n})$级别的。不过好消息是有效查询减少了（定义有效查询为x和y均在数组中出现过且$x \neq y$）。<br>相反，若{$a_i$}中的数字离散程度较大，每个数字出现次数少，那么每次查询中，遍历完位置数组只有常数级别复杂度。<br>针对第一种情况的数据，我们做了<mark>记忆化</mark>处理。把${x, y}$对应的答案存储下来，在下次出现的时候直接输出即可。如此，可以大大降低时间复杂度，大概为$O(\frac{q}{c}n\log{n})$（这里c是个常数，在不同数据中会有变化）</p>
+</li>
+</ul>
+<p><strong>2.赛后的思路优化</strong></p>
+<ul>
+<li><p>上一步优化了时间复杂度，实际上在较坏的情况下常数c可能很小，导致优化效果并不好，举个例子：<br>$n &#x3D; q &#x3D; 10^5$的时候，我给5e4个1，剩下5e4个数都不一样<br>若接下来的5e4次查询中，x都是1，y都不一样，那么每次查询还是要把x的位置序列都遍历一遍，即使二分查找的时间复杂度完全可以忽略不计，但总共有5e4*5e4次操作，依然超时。<br>问题很明显，<mark>我们应该选择x和y中出现次数少的来遍历</mark>，防止遍历复杂度过高。</p>
+</li>
+<li><p>分析时间复杂度<br>首先列一张表，拆解时间复杂度$O(qn\log{n})$的组成部分</p>
+<table>
+<thead>
+<tr>
+<th align="center">组成部分</th>
+<th align="center">代表含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$q$</td>
+<td align="center">有效查询次数$Q&lt;q$</td>
+</tr>
+<tr>
+<td align="center">$n$</td>
+<td align="center">一次查询中遍历某个数出现位置的时间复杂度$t_1&lt;n$</td>
+</tr>
+<tr>
+<td align="center">$logn$</td>
+<td align="center">二分查找另一个数位置的时间复杂度$t_2&lt;logn≈10$</td>
+</tr>
+</tbody></table>
+<p>  所以在估计数量级之前的复杂度为$O(Qt_1t_2)$。事实上$Q,t1,t2$不可能同时取到最大值，三者是相互制约的。<br>  假设$n$个数中共有$m$个不同的数，每个数的出现次数从小到大排列为$b_1,b_2,b_3……,b_m$。易知$\sum_{i&#x3D;1}^{m}b_i &#x3D; n$，$Q$最大可以取到$A_{m}^{2}$，而且不会超过$q$，即$Q&#x3D;min(A_{m}^{2},q)$。</p>
+<p>  <strong>①</strong> $m &lt; \sqrt{q}$<br>  最坏情况下，我们需要把所有可能的${ b_i,b_j}$都暴力计算一遍，即$Q &#x3D; A_m^2$。对于每一对${ b_i,b_j}$，我们都要遍历其中出现次数少的数的位置。由此可得总时间复杂度为$O(\sum_{i&#x3D;1}^{m}b_i(m-i)log{b_j})&lt;O(mlogb_j·\sum_{i&#x3D;1}^{m}b_i)&lt;O(n\sqrt{q}logn)$<br>  **②** $m &gt; \sqrt{q}$<br>  对于一个出现次数为$b_i$的数$x$，如果需要遍历其位置，则另一个数$y$的出现次数$b_j&gt;b_i$。而这样的$y$不会超过$\frac{n}{b_i}$个，因此遍历$x$位置的次数不会超过$\frac{n}{b_i}$。<br>  最坏情况下，$Q &#x3D; q$。假设出现次数$b_i &gt; \sqrt{q}$的数有$k$个，易知$k≤\frac{n}{\sqrt{q}}$，将这些数挑出来可以组成$A_k^2 ≈ k^2$个有序对。最坏情况下这$k^2$个有序对均会被查询，出现$b_i$次的数会被查询$\frac{n}{b_i}$次，时间复杂度大约为$O(\sum{b_i\frac{n}{b_i}logb_j}) &lt; O(nklogn)$。<br>  剩下的$q-k^2$次查询的时间复杂度不超过$O((q-k^2)\sqrt{q}logn)$。<br>  总时间复杂度约为$O((\sqrt{q}k^2+nk-q\sqrt{q})logn)&lt;O((\frac{2n^2}{\sqrt{q}}-q\sqrt{q})logn)$<br>  注：对于$n&#x3D;q&#x3D;10^5$的最大数据，时间复杂度也可以写成$O(n\sqrt{q}logn)$。</p>
+<hr>
+</li>
+</ul>
+<p>经过分析，两种情况均不会超时</p>
+<p>最终版代码提交过后成功AC。AC代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//freopen(&quot;test2.in&quot;, &quot;r&quot;, stdin);</span></span><br><span class="line">    <span class="comment">//freopen(&quot;test2.out&quot;, &quot;w&quot;, stdout);</span></span><br><span class="line">    cin &gt;&gt; n &gt;&gt; q;</span><br><span class="line">    vector &lt;<span class="type">int</span>&gt; <span class="built_in">a</span>(n);</span><br><span class="line">    map &lt;<span class="type">int</span>, vector&lt;<span class="type">int</span>&gt;&gt; mp;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">        mp[a[i]].<span class="built_in">push_back</span>(i);      <span class="comment">//记录a[i]的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    map &lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;, <span class="type">long</span> <span class="type">long</span>&gt; ans;    <span class="comment">//记得开long long</span></span><br><span class="line">    <span class="keyword">while</span>(q--)&#123;</span><br><span class="line">        <span class="type">int</span> x, y;</span><br><span class="line">        cin &gt;&gt; x &gt;&gt; y;</span><br><span class="line">        pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; p = &#123;x, y&#125;;</span><br><span class="line">        <span class="keyword">if</span>(ans.<span class="built_in">count</span>(p))&#123;       <span class="comment">//记忆化</span></span><br><span class="line">            cout &lt;&lt; ans[p] &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">auto</span> &amp;mpx = mp[x];</span><br><span class="line">        <span class="keyword">auto</span> &amp;mpy = mp[y];</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> xl = mpx.<span class="built_in">size</span>(), yl = mpy.<span class="built_in">size</span>();   <span class="comment">//记得开longlong，否则接下来的乘法运算中会爆int</span></span><br><span class="line">        <span class="keyword">if</span>(x == y)&#123;       <span class="comment">//这里需要特判一下x = y的情况！！！</span></span><br><span class="line">            cout &lt;&lt; xl * (xl<span class="number">-1</span>) / <span class="number">2</span> &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(xl &lt; yl)&#123;        <span class="comment">//选择出现次数少的遍历</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span> x : mpx)&#123;</span><br><span class="line">                cnt += yl - (<span class="built_in">lower_bound</span>(mpy.<span class="built_in">begin</span>(), mpy.<span class="built_in">end</span>(), x) - mpy.<span class="built_in">begin</span>());</span><br><span class="line">            &#125;</span><br><span class="line">            ans[p] = cnt;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span> y : mpy)&#123;</span><br><span class="line">                cnt += <span class="built_in">lower_bound</span>(mpx.<span class="built_in">begin</span>(), mpx.<span class="built_in">end</span>(), y) - mpx.<span class="built_in">begin</span>();</span><br><span class="line">                <span class="comment">//注意：两种情况计算方法不一样</span></span><br><span class="line">            &#125;</span><br><span class="line">            ans[p] = cnt;</span><br><span class="line">        &#125;</span><br><span class="line">        ans[p] = cnt;       <span class="comment">//记忆化</span></span><br><span class="line">        cout &lt;&lt; cnt &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+
+<h2 id="三、做题总结"><a href="#三、做题总结" class="headerlink" title="三、做题总结"></a>三、做题总结</h2><p>本题的暴力优化关键在于<mark>寻找数据中的矛盾点</mark>——有效查询次数与位置数组大小，两者只能一大一小。而我们原本的暴力方法不怕有效查询次数多，位置数组小。因此我们只需找出一个针对有效查询次数少，但位置数组大的解决方案——记忆化。</p>
+<p>其实这种思想很像<mark>根号分治</mark>。根号分治是一种在处理数据规模较大的问题时，利用不同算法来平衡复杂度的思想。它的核心在于将问题分为两类：对于小规模数据，采用暴力算法；而对于大规模数据，则使用更高效的算法，一般数据的临界点选择在$\sqrt{n}$左右。本题中我们全部采用暴力+记忆化的方法也能过，因此没有再具体细分数据类型。</p>
+<p>接下来反思一下为什么在比赛中没能做出这题。其实早在A题我就犯了同样的错误：在造样例时没有考虑全所有的极端样例。因此A题多吃了两发罚时😭😭😭。A题中，我只考虑了棋盘是偏正方形的情况（比如600×600），没考虑一长条的情况（比如1×100000）。本题我在造数据的时候，只考虑了特别离散和特别密集的数据，却没有考虑到可以一半离散，一半密集。要是正式赛就要因为一个细节的疏忽而遗憾打铁了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%B0%E5%BF%86%E5%8C%96/" rel="tag"># 记忆化</a>
+              <a href="/tags/%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/" rel="tag"># 暴力优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="prev" title="关系链上的并查集">
+      <i class="fa fa-chevron-left"></i> 关系链上的并查集
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%A2%98%E7%9B%AE%E5%BC%95%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">一、题目引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">二、解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%81%9A%E9%A2%98%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">三、做题总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Drizzlings"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Drizzlings</p>
+  <div class="site-description" itemprop="description">To know, is to know that you konw nothing</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Drizzlings" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Drizzlings" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:JamesNCYC@hotmail.com" title="E-Mail → mailto:JamesNCYC@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/457033926" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;457033926" rel="noopener" target="_blank">My bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://fdd.9201124.xyz/" title="https:&#x2F;&#x2F;fdd.9201124.xyz" rel="noopener" target="_blank">方大刀聊天模拟器</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Drizzlings</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
