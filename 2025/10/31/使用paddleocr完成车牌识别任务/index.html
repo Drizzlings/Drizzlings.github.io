@@ -20,30 +20,35 @@
     var CONFIG = {"hostname":"drizzlings.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="To know, is to know that you konw nothing">
-<meta property="og:type" content="website">
-<meta property="og:title" content="A Peaceful Journey">
-<meta property="og:url" content="http://drizzlings.github.io/index.html">
+  <meta name="description" content="使用paddleocr完成车牌识别任务一、Windows环境 使用conda创建一个虚拟环境并激活 注：默认大家已经安装过了anaconda和miniconda 12conda create --name paddle python&#x3D;3.8 -yconda activate paddle    安装必要的库： 这里一定要注意paddlepaddle的版本和paddleocr的版本！ 如果要使用pa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用paddleocr完成车牌识别任务">
+<meta property="og:url" content="http://drizzlings.github.io/2025/10/31/%E4%BD%BF%E7%94%A8paddleocr%E5%AE%8C%E6%88%90%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%AB%E4%BB%BB%E5%8A%A1/index.html">
 <meta property="og:site_name" content="A Peaceful Journey">
-<meta property="og:description" content="To know, is to know that you konw nothing">
+<meta property="og:description" content="使用paddleocr完成车牌识别任务一、Windows环境 使用conda创建一个虚拟环境并激活 注：默认大家已经安装过了anaconda和miniconda 12conda create --name paddle python&#x3D;3.8 -yconda activate paddle    安装必要的库： 这里一定要注意paddlepaddle的版本和paddleocr的版本！ 如果要使用pa">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-31T12:13:02.000Z">
+<meta property="article:modified_time" content="2025-11-07T09:48:05.259Z">
 <meta property="article:author" content="Drizzlings">
+<meta property="article:tag" content="Ros系统">
+<meta property="article:tag" content="OCR">
+<meta property="article:tag" content="人工智能算法精英赛">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://drizzlings.github.io/">
+<link rel="canonical" href="http://drizzlings.github.io/2025/10/31/%E4%BD%BF%E7%94%A8paddleocr%E5%AE%8C%E6%88%90%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%AB%E4%BB%BB%E5%8A%A1/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>A Peaceful Journey</title>
+  <title>使用paddleocr完成车牌识别任务 | A Peaceful Journey</title>
   
 
 
@@ -185,9 +190,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -203,10 +209,9 @@
       <meta itemprop="name" content="A Peaceful Journey">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/10/31/%E4%BD%BF%E7%94%A8paddleocr%E5%AE%8C%E6%88%90%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%AB%E4%BB%BB%E5%8A%A1/" class="post-title-link" itemprop="url">使用paddleocr完成车牌识别任务</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          使用paddleocr完成车牌识别任务
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -235,6 +240,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -245,7 +257,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="使用paddleocr完成车牌识别任务"><a href="#使用paddleocr完成车牌识别任务" class="headerlink" title="使用paddleocr完成车牌识别任务"></a>使用paddleocr完成车牌识别任务</h1><h2 id="一、Windows环境"><a href="#一、Windows环境" class="headerlink" title="一、Windows环境"></a>一、Windows环境</h2><ol>
+        <h1 id="使用paddleocr完成车牌识别任务"><a href="#使用paddleocr完成车牌识别任务" class="headerlink" title="使用paddleocr完成车牌识别任务"></a>使用paddleocr完成车牌识别任务</h1><h2 id="一、Windows环境"><a href="#一、Windows环境" class="headerlink" title="一、Windows环境"></a>一、Windows环境</h2><ol>
 <li><p><strong>使用conda创建一个虚拟环境并激活</strong></p>
 <p>注：默认大家已经安装过了anaconda和miniconda</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name paddle python=3.8 -y</span><br><span class="line">conda activate paddle</span><br></pre></td></tr></table></figure>
@@ -317,270 +329,35 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一个终端</span></span><br><span class="line">roscore</span><br><span class="line"><span class="comment"># 第二个终端</span></span><br><span class="line">rosrun plate_recognize car_ocr.py</span><br></pre></td></tr></table></figure></li>
 </ol>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Ros%E7%B3%BB%E7%BB%9F/" rel="tag"># Ros系统</a>
+              <a href="/tags/OCR/" rel="tag"># OCR</a>
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E8%B5%9B/" rel="tag"># 人工智能算法精英赛</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Drizzlings">
-      <meta itemprop="description" content="To know, is to know that you konw nothing">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A Peaceful Journey">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">基于数据矛盾性的暴力优化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-09-20 20:25:02" itemprop="dateCreated datePublished" datetime="2025-09-20T20:25:02+08:00">2025-09-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-23 17:31:21" itemprop="dateModified" datetime="2025-09-23T17:31:21+08:00">2025-09-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、题目引入"><a href="#一、题目引入" class="headerlink" title="一、题目引入"></a>一、题目引入</h2><p>前情提要：今天打了ccpc的网络赛，最后大败而归。😭😭😭<br>让我绝望的是到最后G题一直TLE，赛后发现自己的做法缺少了一个关键的细节。于是写博客记录一下此题及其使用的思想。</p>
-<p>题目：<a target="_blank" rel="noopener" href="https://qoj.ac/contest/2534/problem/14553">G 序列与整数对</a></p>
-<p>题目大意：有一个长度为n的序列A，q次询问，每次询问给出两个整数&lt;x,y&gt;，问A中存在多少个&lt;x,y&gt;。<br>数据范围：$1 &lt;&#x3D; n,q &lt;&#x3D; 10^5， 1 &lt;&#x3D; x,y &lt;&#x3D; 10^9$。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Drizzlings">
-      <meta itemprop="description" content="To know, is to know that you konw nothing">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A Peaceful Journey">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/" class="post-title-link" itemprop="url">关系链上的并查集</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-09-11 22:25:02" itemprop="dateCreated datePublished" datetime="2025-09-11T22:25:02+08:00">2025-09-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-09-21 12:10:57" itemprop="dateModified" datetime="2025-09-21T12:10:57+08:00">2025-09-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、题目引入"><a href="#一、题目引入" class="headerlink" title="一、题目引入"></a>一、题目引入</h2><p>最近做了一道很优美的使用并查集解决的问题：<a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/problem/16884">https://ac.nowcoder.com/acm/problem/16884</a> 【2001NOI 食物链】</p>
-<p>简要概括就是一共有A、B、C三种动物。A吃B，B吃C，C吃A。动物间有两种关系：</p>
-<ul>
-<li>“1 X Y”，表示X和Y是同类</li>
-<li>“2 X Y”，表示X吃Y。</li>
-</ul>
-<p>现在给出k个关系，问这些关系中哪些是假的（与已有的关系冲突）</p>
-<hr>
-<p>这是一道很经典的并查集问题，但是与一般的并查集题目不同的是，此题的集合可以选择构建一串逻辑自洽的关系链。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/09/11/%E5%85%B3%E7%B3%BB%E9%93%BE%E4%B8%8A%E7%9A%84%E5%B9%B6%E6%9F%A5%E9%9B%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/20/%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9F%9B%E7%9B%BE%E6%80%A7%E7%9A%84%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/" rel="prev" title="基于数据矛盾性的暴力优化">
+      <i class="fa fa-chevron-left"></i> 基于数据矛盾性的暴力优化
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://drizzlings.github.io/2025/09/09/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Drizzlings">
-      <meta itemprop="description" content="To know, is to know that you konw nothing">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A Peaceful Journey">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/09/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-09-09 23:00:29" itemprop="dateCreated datePublished" datetime="2025-09-09T23:00:29+08:00">2025-09-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：1985-10-26 16:15:00" itemprop="dateModified" datetime="1985-10-26T16:15:00+08:00">1985-10-26</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -633,6 +410,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8paddleocr%E5%AE%8C%E6%88%90%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%AB%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">使用paddleocr完成车牌识别任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81Windows%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">一、Windows环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Linux%E7%8E%AF%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">二、Linux环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85miniconda"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 安装miniconda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%89%E8%A3%85%E5%AF%B9%E5%BA%94%E5%BA%93"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 创建虚拟环境和安装对应库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ROS1%E4%B8%8EPaddleOCR%E9%9B%86%E6%88%90"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.  ROS1与PaddleOCR集成</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
