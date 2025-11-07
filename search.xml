@@ -255,7 +255,7 @@
 <p>在ros的基础教程中，你会学到：写完py代码后需要在cmakelist里面把下面这四行注释去掉</p>
 <figure class="highlight txt"><table><tr><td class="code"><pre><span class="line"># catkin_install_python(PROGRAMS</span><br><span class="line">#   scripts/my_python_script</span><br><span class="line">#   DESTINATION $&#123;CATKIN_PACKAGE_BIN_DESTINATION&#125;</span><br><span class="line"># )</span><br></pre></td></tr></table></figure>
 
-<p>但是！如果希望自己写的shebang行能够正常生效，那么Cmakelistts中的catkin_install_python要&#x3D;&#x3D;保持注释&#x3D;&#x3D;</p>
+<p>但是！如果希望自己写的shebang行能够正常生效，那么Cmakelists中的catkin_install_python要<mark>保持注释</mark></p>
 <p>如果你在shebang行指定了编译器的同时，还将这个catkin_install_python取消注释，那么catkin_build后这一行catkin_install_python指令便会将你写的shebang行覆盖掉，并调用ROS默认的python编译器。</p>
 <p>详细解释：<a href="https://robotics.stackexchange.com/questions/99686/shebang-is-ignored-by-rosrun">shebang is ignored by rosrun - Robotics Stack Exchange</a></p>
 <p>这样，你就可以在你的代码第一行（shebang行）标注虚拟环境中解释器的位置，让你的程序在对应的虚拟环境中运行。shebang行例如：</p>
